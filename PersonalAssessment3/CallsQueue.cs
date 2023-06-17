@@ -107,6 +107,6 @@ public class CallsQueue
 
     public Call GetOldestCall()
     {
-        return WaitingCallsList.OrderByDescending(call => call.CallTime).First();
+        return WaitingCallsList.OrderBy(call => call.CallTime).First();
     }
 }

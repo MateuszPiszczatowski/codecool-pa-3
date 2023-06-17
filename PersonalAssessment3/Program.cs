@@ -16,6 +16,34 @@ public class Program
         menu.ShowExitMessage();
     }
 
+    public static CallsQueue GetQueueWithOldestCall(List<CallsQueue> queues)
+    {
+        if (queues is not null)
+        {
+            if (queues.Any())
+            {
+                return queues.OrderBy(queue => queue.GetOldestCall().CallTime).First();                
+            }
+
+            throw new ArgumentException("Queues list is empty!");
+        }
+        throw new ArgumentException("Queues list is a null reference");
+    }
+    
+    public static List<CallsQueue> GetQueuesWithMostWaitingCalls(List<CallsQueue> queues)
+    {
+        if (queues is not null)
+        {
+            if (queues.Any())
+            {
+                 int mostWaitingCallsCount = queues.OrderByDescending(queue => queue.CallsCount()).First().CallsCount();
+                 return queues.Where(queue => queue.CallsCount() == mostWaitingCallsCount).ToList();
+            }
+            throw new ArgumentException("Queues list is empty!");
+        }
+        throw new ArgumentException("Queues list is a null reference");
+    }
+
     public static void Tests()
     {
         Agent employee = new Agent(0, "Employee", SeniorityLevel.LevelA);
@@ -32,6 +60,9 @@ public class Program
 
         CallsQueue standardQueue = new CallsQueue("MyQueue");
         CallsQueue highPriorityQueue = new HighPriorityCallsQueue("MyHighPriorityQueue");
+        List<CallsQueue> queues = new List<CallsQueue>();
+        queues.Add(standardQueue);
+        queues.Add(highPriorityQueue);
         standardQueue.AddReceiver(employee);
         standardQueue.AddReceiver(employee3);
         standardQueue.AddReceiver(employee5);
@@ -45,14 +76,34 @@ public class Program
         highPriorityQueue.AddCall(call4);
         Console.WriteLine($"Standard queue count: {standardQueue.CallsCount()}");
         Console.WriteLine($"High Priority Queue count: {highPriorityQueue.CallsCount()}");
-
+        Console.WriteLine($"Queue with oldest call is: {GetQueueWithOldestCall(queues).Name}\nThe oldest call has been made: {GetQueueWithOldestCall(queues).GetOldestCall().CallTime}\nIt's equality to firstly created call is: {GetQueueWithOldestCall(queues).GetOldestCall()==call}");
+        Console.WriteLine($"Queues with most waiting calls ({GetQueuesWithMostWaitingCalls(queues).First().CallsCount()}):");
+        foreach (var queue in GetQueuesWithMostWaitingCalls(queues))
+        {
+            Console.WriteLine($"\t- {queue.Name}");
+        }
+        highPriorityQueue.AddCall(new Call());
+        Console.WriteLine($"Queues with most waiting calls after adding one to high priority ({GetQueuesWithMostWaitingCalls(queues).First().CallsCount()}):");
+        foreach (var queue in GetQueuesWithMostWaitingCalls(queues))
+        {
+            Console.WriteLine($"\t- {queue.Name}");
+        }
+        
         standardQueue.AnswerCall();
         standardQueue.AnswerCall();
-        highPriorityQueue.AnswerCall(call4);
+        highPriorityQueue.AnswerCall(call3);
         
         Console.WriteLine($"Standard queue count after answering two calls: {standardQueue.CallsCount()}");
         Console.WriteLine($"High Priority Queue count after answering one call: {highPriorityQueue.CallsCount()}");
-        
-        highPriorityQueue.AddReceiver(employee4);
+        Console.Write("Exception when invalid employee added to highPriorityQueue: ");
+        try
+        {
+            highPriorityQueue.AddReceiver(employee4);
+            Console.WriteLine("No");
+        }
+        catch (ArgumentException)
+        {
+            Console.WriteLine("Yes");
+        }
     }
 }
