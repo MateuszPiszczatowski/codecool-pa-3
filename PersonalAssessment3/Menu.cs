@@ -6,12 +6,13 @@ public class Menu
     public void ShowMenu()
     {
         Console.WriteLine("TODO: Menu");
-        GetOption();
     }
     
     public ConsoleKeyInfo GetOption()
     {
-        return Console.ReadKey();
+        ConsoleKeyInfo key = Console.ReadKey();
+        Console.WriteLine();
+        return key;
     }
 
     public string GetConsoleInput()
