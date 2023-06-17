@@ -96,8 +96,8 @@ public static class Program
         
         highPriorityQueue.AddCall(call3);
         highPriorityQueue.AddCall(call4);
-        Console.WriteLine($"Standard queue count: {standardQueue.CallsCount()}");
-        Console.WriteLine($"High Priority Queue count: {highPriorityQueue.CallsCount()}");
+        Console.WriteLine($"Standard queue calls count: {standardQueue.CallsCount()}");
+        Console.WriteLine($"High Priority Queue calls count: {highPriorityQueue.CallsCount()}");
         Console.WriteLine($"Queue with oldest call is: {GetQueueWithOldestCall(queues).Name}\nThe oldest call has been made: {GetQueueWithOldestCall(queues).GetOldestCall().CallTime}\nIt's equality to firstly created call is: {GetQueueWithOldestCall(queues).GetOldestCall()==call}");
         Console.WriteLine($"Queues with most waiting calls ({GetQueuesWithMostWaitingCalls(queues).First().CallsCount()}):");
         foreach (var queue in GetQueuesWithMostWaitingCalls(queues))
