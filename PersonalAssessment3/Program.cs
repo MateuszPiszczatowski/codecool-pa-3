@@ -4,7 +4,9 @@ public static class Program
 {
     public static void Main(string[] argv)
     {
-        
+        List<Agent> agents = new List<Agent>();
+        List<Call> calls = new List<Call>();
+        List<CallsQueue> queues = new List<CallsQueue>();
         ConsoleMenu consoleMenu = new ConsoleMenu();
         consoleMenu.ShowGeneralMenu();
         MenuOption option = consoleMenu.GetOption();
