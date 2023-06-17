@@ -18,6 +18,7 @@ public class CallsQueue
         if (newCall is not null)
         {
             WaitingCallsList.Add(newCall);
+            newCall.setQueue(this);
             return;
         }
         throw new ArgumentException("Cannot add null as a call!");
@@ -28,6 +29,7 @@ public class CallsQueue
         if (newReceiver is not null)
         {
             ReceiversList.Add(newReceiver);
+            newReceiver.setQueue(this);
             return;
         }
         throw new ArgumentException("Cannot add null as a receiver!");
@@ -92,6 +94,8 @@ public class CallsQueue
             {
                 ReceiversList.Remove(receiver);
                 WaitingCallsList.Remove(call);
+                receiver.setQueue(null);
+                call.setQueue(null);
                 call.setReceiver(receiver);
                 return;
             }

@@ -1,19 +1,39 @@
 ﻿namespace PersonalAssessment3;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] argv)
     {
-        Tests();
-        Menu menu = new Menu();
-        menu.ShowMenu();
-        ConsoleKeyInfo option = menu.GetOption();
-        while (option.Key != ConsoleKey.Q)
+        
+        ConsoleMenu consoleMenu = new ConsoleMenu();
+        consoleMenu.ShowGeneralMenu();
+        MenuOption option = consoleMenu.GetOption();
+        while (option != MenuOption.Exit)
         {
-            menu.ShowMenu();
-            option = menu.GetOption();
+            HandleOption(option, consoleMenu);
+            consoleMenu.ShowGeneralMenu();
+            option = consoleMenu.GetOption();
         }
-        menu.ShowExitMessage();
+        consoleMenu.ShowExitMessage();
+    }
+
+    public static void HandleOption(MenuOption option, ConsoleMenu menu)
+    {
+        switch (option)
+        {
+            case MenuOption.Tests:
+                Tests();
+                break;
+            case MenuOption.NoOptionChosen:
+                Console.WriteLine("\nInvalid option!\n");
+                break;
+            case MenuOption.EnterAgents:
+                break;
+            case MenuOption.EnterCalls:
+                break;
+            case MenuOption.EnterQueues:
+                break;
+        }
     }
 
     public static CallsQueue GetQueueWithOldestCall(List<CallsQueue> queues)
