@@ -5,7 +5,7 @@ public class ConsoleMenu
 
     public void ShowGeneralMenu()
     {
-        Console.WriteLine("e, e - Exit" +
+        Console.WriteLine("e, E - Exit" +
                           "\nt, T - Tests" +
                           "\nc, C - Calls" +
                           "\na, A - Agents" +
